@@ -102,3 +102,4 @@ group_order.add_dish(coffee)
 
 print(group_order)  # Вывод информации о групповом заказе
 print(f"Split Bill: ${group_order.split_bill():.2f} per person")  # Стоимость на каждого
+

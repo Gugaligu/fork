@@ -1,8 +1,6 @@
-from enum import Enum
 
 import uvicorn
 from fastapi import FastAPI
-
 from task_handles import route as task
 
 app = FastAPI()

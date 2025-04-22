@@ -1,8 +1,5 @@
 from fastapi.routing import APIRouter
-
 from Shemas_task import Status
-
-
 
 route=APIRouter()
 
@@ -20,9 +17,9 @@ def create_task(task):
 @route.put("/tasks/{task_id}")
 def update_task(task_id: int, new_task:str=None,status:Status=None):
     if task_id in j:
-        if not new_task is None:
+        if new_task is not None:
             j[task_id]["task"] = new_task
-        if not status is None:
+        if status is not None:
             j[task_id]["status"]=status
     return j
 

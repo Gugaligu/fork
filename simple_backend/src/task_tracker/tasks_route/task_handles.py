@@ -13,7 +13,7 @@ def get_tasks():
 
 @route.post("/tasks")
 def create_task(task:TaskCreate):
-    all_tasks = TasksCRUD.create_new_task(task.task,Status.unactive)
+    all_tasks = TasksCRUD.create_new_task(task.task,Status.unactive.value)
     return all_tasks
 
 @route.put("/tasks/{task_id}")
@@ -25,3 +25,4 @@ def update_task(task_id: int, task:TaskUpdate):
 def delete_task(task_id: int):
     all_tasks=TasksCRUD.delete_task(task_id)
     return all_tasks
+# обновить онлайн репозиторий

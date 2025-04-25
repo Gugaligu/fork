@@ -1,28 +1,37 @@
 from fastapi.routing import APIRouter
-from logic import TasksCRUD
+from logic import TaskCloud, TasksCRUD
 
-from tasks_route.Shemas_task import Status, TaskCreate, TaskUpdate
+from tasks_route.Shemas_task import Status, TaskCreate, TaskModel
 
-route=APIRouter()
+route=APIRouter(prefix="/tasks")
 
 
-@route.get("/tasks")
+@route.get("")
 def get_tasks():
-    all_task = TasksCRUD.get_tasks()
+    all_task = TasksCRUD.get()
     return all_task
 
-@route.post("/tasks")
+@route.post("")
 def create_task(task:TaskCreate):
-    all_tasks = TasksCRUD.create_new_task(task.task,Status.unactive.value)
+    all_tasks = TasksCRUD.create(TaskModel(task=task.task,status=Status.unactive.value))
     return all_tasks
 
-@route.put("/tasks/{task_id}")
-def update_task(task_id: int, task:TaskUpdate):
-    all_tasks=TasksCRUD.update_task(task_id,task.new_task,task.new_status)
+@route.put("/{task_id}")
+def update_task(task_id: int, task:TaskModel):
+    all_tasks=TasksCRUD.update(task_id,task)
     return all_tasks
 
-@route.delete("/tasks/{task_id}")
+@route.delete("/{task_id}")
 def delete_task(task_id: int):
-    all_tasks=TasksCRUD.delete_task(task_id)
+    all_tasks=TasksCRUD.delete(task_id)
     return all_tasks
-# обновить онлайн репозиторий
+
+@route.post("/local/sync")
+def local_task_synk():
+    all_tasks=TaskCloud.local_sync()
+    return all_tasks
+
+@route.post("/cloud/sync")
+def cloud_task_synk():
+    all_tasks=TaskCloud.cloud_sync()
+    return all_tasks

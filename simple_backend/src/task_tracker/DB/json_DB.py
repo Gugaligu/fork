@@ -1,8 +1,10 @@
 import json
 from pathlib import Path
 
+from ABC_CRUD import BaseCRUD
 
-class JSON:
+
+class JSON(BaseCRUD):
     _instance = None
 
     def __new__(cls, name=r"DB\JSON_TASK_DB.json", *args, **kwargs):
@@ -20,28 +22,22 @@ class JSON:
 
         return cls._instance
 
-    def get_all_task(self):
+    def get(self):
         return self.data_json
 
-    def create_task(self, task_name, status):
+    def create(self, data:dict):
         new_id = str(len(self.data_json) + 1)
-        self.data_json[new_id] = {"task": task_name, "status": status}
+        self.data_json[new_id] = data
         self._save_to_file()
         return self.data_json
 
-    def update_status(self, task_id:str, status):
+    def update(self, task_id:str, data:dict):
         if task_id in self.data_json:
-            self.data_json[task_id]["status"] = status
+            self.data_json[task_id]=data
             self._save_to_file()
         return self.data_json
 
-    def update_name_task(self, task_id:str, new_task):
-        if task_id in self.data_json:
-            self.data_json[task_id]["task"] = new_task
-            self._save_to_file()
-        return self.data_json
-
-    def delete_task(self, task_id:str):
+    def delete(self, task_id:str):
         if task_id in self.data_json:
             del self.data_json[task_id]
             # Перенумеровываем
@@ -55,4 +51,3 @@ class JSON:
     def _save_to_file(self):
         with open(self.name, "w", encoding="utf-8") as file:
             json.dump(self.data_json, file, indent=4, ensure_ascii=False)
-JSON()

@@ -11,6 +11,6 @@ class Status(StrEnum):
 class TaskCreate(BaseModel):
     task: str
 
-class TaskUpdate(BaseModel):
-    new_task: str | None = None
-    new_status: Status | None = Field(default="completed,active,unactive or None")
+class TaskModel(BaseModel):
+    task: str|None = Field(default="новый запрос или пустая строка")
+    status: Status = Field(default="completed,active,unactive")
